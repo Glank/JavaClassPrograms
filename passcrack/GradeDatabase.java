@@ -73,9 +73,17 @@ public class GradeDatabase{
     }
 
     public static void main(String[] args) throws Throwable{
-        Scanner keyboard = new Scanner(System.in);
-        System.out.print("Password: ");
-        String password = keyboard.nextLine();
+        Console console = System.console();
+        String password;
+        if (console == null) {
+            Scanner keyboard = new Scanner(System.in);
+            System.out.print("Password: ");
+            password = keyboard.nextLine();
+        }
+        else{
+            char passwordArray[] = console.readPassword("Password: ");
+            password = new String(passwordArray);
+        }
 
          //check the password
         byte[] passwordBytes = (password+salt).getBytes("UTF-8");
