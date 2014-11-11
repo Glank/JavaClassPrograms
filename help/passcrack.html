@@ -1,8 +1,18 @@
 <html>
 <link rel="stylesheet" href="css/default.css">
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="js/highlight.pack.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-<body>
+<script>
+hljs.configure({languages:['java']});
+hljs.initHighlightingOnLoad();
+$(document).ready(function () {
+    $('body').bind('copy paste', function (e) {
+        alert("Please don't just copy/paste. You won't learn that way.");
+        e.preventDefault();
+    });
+});
+</script>
+<body oncopy="return false" oncut="return false" onpaste="return false">
 
 
 <h1>It's time to become a hacker.</h1>
@@ -19,8 +29,9 @@ has recorded the grades, and she gave everyone F's!!!
 </p>
 
 <p>
-Mrs. Dufus uses the java program 'GradeDatabase.java' to get to the grades.
-Hm... maybe you can just guess the password?
+Mrs. Dufus uses the java program 'GradeDatabase.java' to record the grades.
+It's password protected but maybe you can just guess the password. Why not
+give it a try?
 </p>
 
 <p>
@@ -28,25 +39,160 @@ Hm... maybe you can just guess the password?
 </p>
 
 <p>
-There's lots of ways you might be able to get into an ecrypted file.
+There are a bunch of ways to get into an ecrypted file, but most of them are really hard.
 The easiest ways is to just guess the right password.
-There's a list of common passwords in the 'passcrack' folder.
-We could just try each one until we fine one that works...
+I put a list of 250 common passwords in the 'passcrack' folder.
+We're going to write a program which tries all of those passwords.
 </p>
 
 <p>
-&lt;Picture of someone growing old&gt;
-
-<p>
-Ok, maybe not. How about we write a program to try all those passwords for us?
-
+First, you need to open up 'PassCracker.java'. This is the code you'll be starting with.
+You can use the method <code>CrackerUtils.tryPassword(pass)</code> to check if a password
+is correct.
 </p>
 
-<pre><code class="java">
-public static void main(String[] args){
-    System.out.println("Hello World");
-}
-</code></pre>
+<pre><code class="java">public class PasswordCracker{
+
+    public static void main(String[] args) throws Throwable{
+        String pass = "password";
+        System.out.println("Trying password '"+pass+"'");
+
+        //try the password
+        if(CrackerUtils.tryPassword(pass)){
+            System.out.println("That was the right password!");
+        }
+        else{
+            System.out.println("That's not the right password.");
+        }
+    }
+
+}</code></pre>
+
+<p>
+But that's just one password, so that's not very useful. We're going to need to use something
+new called an "array". Arrays store lists of values in the same way that a variable stores a
+single value. Here's an example:
+</p>
+
+<pre><code class="java">int[] numbers; //create a variable to store our array in
+numbers = new int[3]; //create an array that can store 3 integers
+
+numbers[0] = 3; //set the first value in the array to 3
+numbers[1] = 5; //set the second value in the array to 5
+numbers[2] = 7; //set the third value in the array to 7
+
+//print all the values in the array
+System.out.println(numbers[0]);
+System.out.println(numbers[1]);
+System.out.println(numbers[2]);</code></pre>
+
+<p>
+This example shows you how to make, fill, and get values from an array. You might notice something
+a little bit weird: why is it 0, 1, 2 instead of 1, 2, 3? It's because array's start counting at 0 instead
+of 1. I know, it's weird and there's a weird reason for it - some of the very first programmers
+figured out that they could avoid typing a couple of characters in a couple of places when they made arrays start at 0
+instead of 1. Programmers are really lazy. (Also, it really bothered math teachers and they thought that was funny).
+<a href="http://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF">Source</a>
+</p>
+
+<p>
+Why would you want to use an array instead of just making a bunch of variables?
+One reason is that you can do tricky things with an array in a loop:
+</p>
+
+<pre><code class="java">//a short-hand way of making an array:
+int[] numbers = new int[]{1,2,3,4,5,4,3,2,1,2,3,4,5,4,3,2,1};
+int i = 0;
+while(i &lt; numbers.length){ //while 'i' is less than the number of numbers
+    System.out.println(numbers[i]); //print out the i'th number
+    i = i+1; //go to the next number
+}</code></pre>
+
+<p>
+That code is a lot easier than writing out:
+</p>
+
+<pre><code class="java">System.out.println(1);
+System.out.println(2);
+System.out.println(3);
+System.out.println(4);
+System.out.println(5);
+System.out.println(4);
+System.out.println(3);
+System.out.println(2);
+System.out.println(1);
+System.out.println(2);
+System.out.println(3);
+System.out.println(4);
+System.out.println(5);
+System.out.println(4);
+System.out.println(3);
+System.out.println(2);
+System.out.println(1);</code></pre>
+
+<p>
+Now, let's modify the 'PasswordCracker' program to try 5 passwords at once using an array.
+</p>
+
+<pre><code class="java">public class PasswordCracker{
+
+    public static void main(String[] args) throws Throwable{
+        String[] passwords = new String[]{
+            "password",
+            "123456",
+            "12345678",
+            "1234",
+            "qwerty"
+        }
+        int i = 0;
+        while(i &lt; passwords.length){
+            System.out.println("Trying password '"+passswords[i]+"'");
+
+            //try the i'th password
+            if(CrackerUtils.tryPassword(password[i])){
+                System.out.println("That was the right password!");
+            }
+            else{
+                System.out.println("That's not the right password.");
+            }
+            i = i+1; //goto the next password
+        }
+    }
+
+}</code></pre>
+
+<p>
+That's a <em>little</em> bit better... but we still haven't gotten into the file.
+Let's just go ahead and try all of the passwords in the password.txt file.
+We'll use the method <code>CrackerUtils.getPasswords()</code> which returns
+an array of Strings just like <code>keyboard.nextLine()</code> returns a single String.
+</p>
+
+<pre><code class="java">public class PasswordCracker{
+
+    public static void main(String[] args) throws Throwable{
+        String[] passwords = CrackerUtils.getPasswords();
+
+        int i = 0;
+        while(i &lt; passwords.length){
+            System.out.println("Trying password '"+passswords[i]+"'");
+
+            //try the i'th password
+            if(CrackerUtils.tryPassword(password[i])){
+                System.out.println("That was the right password!");
+            }
+            else{
+                System.out.println("That's not the right password.");
+            }
+            i = i+1; //goto the next password
+        }
+    }
+
+}</code></pre>
+
+<p>
+That should get you into the file. Congradulations! You're a hacker. Give yourself an 'A', you deserve it.
+</p>
 
 </body>
 </html>
