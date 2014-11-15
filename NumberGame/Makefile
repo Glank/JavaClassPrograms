@@ -5,3 +5,6 @@ NumberGame.class: NumberGame.java
 
 test: NumberGame.class
 	java NumberGame
+
+clean:
+	rm *.class
