@@ -8,41 +8,76 @@ hljs.initHighlightingOnLoad();
 $(document).ready(function () {
     $('body').bind('copy paste', function (e) {
         alert("Please don't just copy/paste. You won't learn that way.");
-        e.preventDefault();
     });
 });
 </script>
+<style>
+    div.content{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 640px;
+    }
+    h1{
+        text-align: center;
+    }
+    div.captioned{
+        text-align: center;
+        font-size: 75%;
+        display: block;
+    }
+    div.captioned > img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 600px;
+    }
+        
+</style>
 <body oncopy="return false" oncut="return false" onpaste="return false">
 
-
+<div class="content">
 <h1>It's time to become a hacker.</h1>
 
 <p>
 I think you've learned enough programming to start getting into trouble.
-Your first job as a hacker will be to break into the 'grades.enc'
-file in the 'passcrack' folder. That's where your teacher, Mrs. Dufus,
-has recorded the grades, and she gave everyone F's!!!
+And, as a hacker, your first challenge will be to hack in and change some
+grades. Your teacher is evil, and has given everyone F's! That is unacceptable.
 </p>
 
-<p>
-&lt;Picture Of Mean Teacher Goes Here&gt;
-</p>
+<div class="captioned">
+<img src="imgs/hacker.jpg" />
+Apparently, this is what a hacker looks like.
+</div>
 
 <p>
-Mrs. Dufus uses the java program 'GradeDatabase.java' to record the grades.
+Your teacher uses the java program 'GradeDatabase.java' to record the grades.
 It's password protected but maybe you can just guess the password. Why not
 give it a try?
 </p>
 
 <p>
-&lt;Help running 'GradeDatabase.java'&gt;
+<ol>
+    <li>Copy the 'passcrack' folder from the 'JavaClassPrograms' folder 
+    into your personal folder.</li>
+    <li>Open up the file '&lt;your_personal_folder&gt;/passcrack/GradeDatabase.java'</li>
+    <li>Click Compile</li>
+    <li>Click Run</li>
+    <li>Enter some password</li>
+</ol>
 </p>
+
+<div class="captioned">
+<img src="imgs/running_grade_database.png" />
+You should get this (unless you happen to get the password of course.)
+</div>
 
 <p>
 There are a bunch of ways to get into an ecrypted file, but most of them are really hard.
 The easiest ways is to just guess the right password.
 I put a list of 250 common passwords in the 'passcrack' folder.
-We're going to write a program which tries all of those passwords.
+We're going to write a program which guesses all of those passwords.
+That's called a <a href="http://en.wikipedia.org/wiki/Dictionary_attack">"dictionary attack"</a>.
 </p>
 
 <p>
@@ -86,10 +121,19 @@ System.out.println(numbers[0]);
 System.out.println(numbers[1]);
 System.out.println(numbers[2]);</code></pre>
 
+<p>That would print:</p>
+
+<pre><code class="java">3
+5
+7</code></pre>
+
 <p>
 This example shows you how to make, fill, and get values from an array. You might notice something
 a little bit weird: why is it 0, 1, 2 instead of 1, 2, 3? It's because array's start counting at 0 instead
-of 1. I know, it's weird and there's a weird reason for it - some of the very first programmers
+of 1. 
+</p>
+
+<p>I know, it's weird and there's a weird reason for it - some of the very first programmers
 figured out that they could avoid typing a couple of characters in a couple of places when they made arrays start at 0
 instead of 1. Programmers are really lazy. (Also, it really bothered math teachers and they thought that was funny).
 <a href="http://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF">Source</a>
@@ -131,7 +175,8 @@ System.out.println(2);
 System.out.println(1);</code></pre>
 
 <p>
-Now, let's modify the 'PasswordCracker' program to try 5 passwords at once using an array.
+Using that same trick, let's modify the 'PasswordCracker' program
+to try 5 passwords at once using an array.
 </p>
 
 <pre><code class="java">public class PasswordCracker{
@@ -191,8 +236,10 @@ an array of Strings just like <code>keyboard.nextLine()</code> returns a single 
 }</code></pre>
 
 <p>
-That should get you into the file. Congradulations! You're a hacker. Give yourself an 'A', you deserve it.
+That should get you into the file. Congradulations! You're a hacker. Give yourself an 'A'
+(seriously, you're in the file).
 </p>
+</div>
 
 </body>
 </html>
