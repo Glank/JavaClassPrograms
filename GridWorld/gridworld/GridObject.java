@@ -3,12 +3,17 @@ import java.awt.Graphics;
 
 public abstract class GridObject{
     private int x, y;
-    private boolean solid = true;    
+    private boolean solid;    
     private Grid grid;
 
     public GridObject(int x, int y){
+        this(x,y,true);
+    }
+
+    public GridObject(int x, int y, boolean solid){
         this.x = x;
         this.y = y;
+        this.solid = solid;
     }
 
     public void moveTo(int new_x, int new_y){

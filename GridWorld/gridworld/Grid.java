@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.Vector;
 
 public class Grid{
-    public static final int GRID_SQUARE_WIDTH = 40;
-    public static final int GRID_SQUARE_HEIGHT = 40;
+    public static final int GRID_SQUARE_WIDTH = 20;
+    public static final int GRID_SQUARE_HEIGHT = 20;
     private int width, height;
     private Vector<GridObject> objects = new Vector<GridObject>();
 
@@ -41,6 +41,10 @@ public class Grid{
 
     public void draw(Graphics g){
         //draw checkerboard background
+        g.setColor(Color.WHITE);
+        g.fillRect(
+            0, 0, getWidth()*GRID_SQUARE_WIDTH, getHeight()*GRID_SQUARE_HEIGHT
+        );
         g.setColor(Color.LIGHT_GRAY);
         for(int x = 0; x < getWidth(); x++){
             for(int y = 0; y < getHeight(); y++){
@@ -56,8 +60,9 @@ public class Grid{
         for(GridObject obj:objects){
             int x = GRID_SQUARE_WIDTH*obj.getX();
             int y = GRID_SQUARE_HEIGHT*obj.getY();
-            g.translate(x,y);
+            g.translate(x,y); //translate
             obj.draw(g);
+            g.translate(-x,-y); //untranslate
         }
     }
 }
