@@ -1,6 +1,7 @@
 package gridworld;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public class Grid{
@@ -39,11 +40,22 @@ public class Grid{
         return height;
     }
 
+    public BufferedImage generateCanvas(){
+        BufferedImage img = new BufferedImage(
+            getWidth()*GRID_SQUARE_WIDTH,
+            getHeight()*GRID_SQUARE_HEIGHT,
+            BufferedImage.TYPE_INT_RGB
+        );
+        return img;
+    }
+
     public void draw(Graphics g){
         //draw checkerboard background
         g.setColor(Color.WHITE);
         g.fillRect(
-            0, 0, getWidth()*GRID_SQUARE_WIDTH, getHeight()*GRID_SQUARE_HEIGHT
+            0, 0, 
+            getWidth()*GRID_SQUARE_WIDTH,
+            getHeight()*GRID_SQUARE_HEIGHT
         );
         g.setColor(Color.LIGHT_GRAY);
         for(int x = 0; x < getWidth(); x++){

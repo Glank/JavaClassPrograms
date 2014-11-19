@@ -35,8 +35,11 @@ public abstract class GridObject{
     * These methods are only to be called by Grid.
     */
     private void  __assertGridCalling(){
-        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        assert(stackTraceElements[3].getClassName().equals("gridworld.Grid"));
+        StackTraceElement[] stackTraceElements = 
+            Thread.currentThread().getStackTrace();
+        assert(stackTraceElements[3].getClassName().equals(
+            "gridworld.Grid"
+        ));
     }
     void __setLoc(int x, int y){
         __assertGridCalling();
@@ -53,9 +56,4 @@ public abstract class GridObject{
     * Draw this object with it's top left corner at 0,0
     */
     protected abstract void draw(Graphics g);
-
-    /**
-    * Move or do whatever.
-    */
-    public void update(){}
 }
