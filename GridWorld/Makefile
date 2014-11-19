@@ -10,6 +10,7 @@ json.jar:
 gridworld_recompile: gridworld/*.java gridworld/gui/*.java json.jar
 	javac $(javac_flags) gridworld/*.java
 	javac $(javac_flags) gridworld/gui/*.java
+	javac $(javac_flags) gridworld/com/*.java
 
 Test.class: gridworld_recompile Test.java
 	javac $(javac_flags) Test.java
@@ -20,6 +21,8 @@ test: Test.class
 clean:
 	rm -f *.class
 	rm -f gridworld/*.class
+	rm -f gridworld/gui/*.class
+	rm -f gridworld/com/*.class
 	rm -f test.png
 
 clean_full: clean

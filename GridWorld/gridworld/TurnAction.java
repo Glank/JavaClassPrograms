@@ -12,5 +12,8 @@ public abstract class TurnAction{
         finished = true;
         notifyAll();
     }
+    public synchronized boolean isFinished(){
+        return finished;
+    }
     public abstract void performTurn();
 }

@@ -10,6 +10,10 @@ public class GridDisplay extends JComponent{
     private BufferedImage displayCanvas, workCanvas;
 
     public GridDisplay(Grid grid){
+        setGrid(grid);
+    }
+
+    public void setGrid(Grid grid){
         this.grid = grid;
         //create display and work-buffer images
         displayCanvas = grid.generateCanvas();

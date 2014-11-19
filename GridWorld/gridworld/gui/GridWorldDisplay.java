@@ -1,8 +1,9 @@
 package gridworld.gui;
 import gridworld.GridWorld;
 import gridworld.Grid;
+import gridworld.GridChangeListener;
 
-public class GridWorldDisplay extends GridDisplay{
+public class GridWorldDisplay extends GridDisplay implements GridChangeListener{
     private GridWorld world;
     public GridWorldDisplay(GridWorld world){
         super(world.getGrid());
@@ -13,6 +14,11 @@ public class GridWorldDisplay extends GridDisplay{
         thread.component = this;
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public void gridChanged(Grid newGrid){
+        setGrid(newGrid);
+        repaint();
     }
 
     private static class RepaintThread extends Thread{

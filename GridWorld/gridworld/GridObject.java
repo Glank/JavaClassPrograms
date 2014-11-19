@@ -16,12 +16,41 @@ public abstract class GridObject{
         this.solid = solid;
     }
 
-    public void moveTo(int new_x, int new_y){
+    public boolean isSolid(){
+        return solid;
+    }
+
+    public void moveTo(int newX, int newY){
         //the grid controls the location of objects, as it may
         //eventually have an internal mechanism which keeps
         //track of objects based on their location for faster
         //referencing.
-        grid.moveObjectTo(this, new_x, new_y);
+        if(grid!=null)
+            grid.moveObjectTo(this, newX, newY);
+        else{
+            this.x = newX;
+            this.y = newY;
+        }
+    }
+
+    public boolean move(int dx, int dy){
+        if(grid==null)
+            return false;
+        int newX = x+dx;
+        int newY = y+dy;
+        if(isSolid()){
+            if(grid.isFreeSquare(newX, newY))
+                moveTo(newX, newY);
+            else
+                return false;
+        }
+        else{
+            if(grid.containsSquare(newX, newY))
+                moveTo(newX, newY);
+            else
+                return false;
+        }
+        return true;
     }
 
     public int getX(){

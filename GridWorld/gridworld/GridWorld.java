@@ -6,6 +6,10 @@ import java.util.Iterator;
 public class GridWorld implements Runnable{
     private LinkedList<TurnAction> actionQueue = 
         new LinkedList<TurnAction>();
+    private LinkedList<GridChangeListener> gcListeners =
+        new LinkedList<GridChangeListener>();
+    private LinkedList<GridUpdate> updates =
+        new LinkedList<GridUpdate>();
     private Grid grid;
     private boolean stopped = false;
     public GridWorld(Grid grid){
@@ -15,6 +19,26 @@ public class GridWorld implements Runnable{
 
     public Grid getGrid(){
         return grid;
+    }
+
+    public void setGrid(Grid grid){
+        this.grid = grid;
+        synchronized(gcListeners){
+            for(GridChangeListener listener: gcListeners)
+                listener.gridChanged(grid);
+        }
+    }
+
+    public void addListener(GridChangeListener listener){
+        synchronized(gcListeners){
+            gcListeners.add(listener);
+        }
+    }
+
+    public void addUpdate(GridUpdate update){
+        synchronized(updates){
+            updates.add(update);
+        }
     }
 
     private void startDaemonThread(){
@@ -56,6 +80,12 @@ public class GridWorld implements Runnable{
             try{Thread.sleep(500);}catch(InterruptedException ex){}
             //do the next turn
             doTurn();
+            //run all the grid updates
+            synchronized(updates){
+                for(GridUpdate update:updates){
+                    update.update(grid);
+                }
+            }
             //notify everything waiting for a turn update
             synchronized(this){notifyAll();}
         }

@@ -15,22 +15,44 @@ public class Grid{
         this.height = height;
     }
 
-    public void addObject(GridObject obj){
-        objects.add(obj);
+    public synchronized void addObject(GridObject obj){
+        if(obj.isSolid())
+            objects.add(obj);
+        else
+            objects.add(0, obj);
         obj.__setGrid(this);
     }
 
-    public void moveObjectTo(GridObject obj, int new_x, int new_y){
+    public synchronized void removeObject(GridObject obj){
+        objects.remove(obj);
+        obj.__setGrid(null);
+    }
+
+    public synchronized void moveObjectTo(GridObject obj, int new_x, int new_y){
         obj.__setLoc(new_x, new_y);
     }
 
-    public Vector<GridObject> getObjectsAt(int x, int y){
+    public synchronized Vector<GridObject> getObjectsAt(int x, int y){
         Vector<GridObject> objectsAt = new Vector<GridObject>();
         for(GridObject obj:objects){
             if(obj.getX()==x && obj.getY()==y)
                 objectsAt.add(obj);
         }
         return objectsAt;
+    }
+
+    public synchronized boolean containsSquare(int x, int y){
+        return 0<=x && x<getWidth() && 0<=y && y<getHeight();
+    }
+
+    public synchronized boolean isFreeSquare(int x, int y){
+        if(!containsSquare(x,y))
+            return false;
+        for(GridObject object:getObjectsAt(x,y)){
+            if(object.isSolid())
+                return false;
+        }
+        return true;
     }
 
     public int getWidth(){
@@ -49,7 +71,7 @@ public class Grid{
         return img;
     }
 
-    public void draw(Graphics g){
+    public synchronized void draw(Graphics g){
         //draw checkerboard background
         g.setColor(Color.WHITE);
         g.fillRect(
