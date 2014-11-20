@@ -6,7 +6,7 @@ Test.class: gridworld.jar Test.java
 test: Test.class
 	java -cp gridworld.jar:. Test
 
-gridworld.jar: gridworld/*.java gridworld/gui/*.java gridworld/com/*.java gridworld/actions/*.java gridworld/levels/*.java gridworld/objects/*.java gridworld/updates/*.java
+gridworld.jar: gridworld/.gwconf gridworld/*.java gridworld/gui/*.java gridworld/com/*.java gridworld/actions/*.java gridworld/levels/*.java gridworld/objects/*.java gridworld/updates/*.java
 	javac gridworld/*.java \
 	gridworld/gui/*.java \
 	gridworld/com/*.java \
@@ -21,11 +21,9 @@ gridworld.jar: gridworld/*.java gridworld/gui/*.java gridworld/com/*.java gridwo
 	gridworld/actions/*.class \
 	gridworld/levels/*.class \
 	gridworld/objects/*.class \
-	gridworld/updates/*.class
+	gridworld/updates/*.class \
+	gridworld/.gwconf
 	chmod +x gridworld.jar
-
-install: gridworld.jar
-	./install.sh
 
 clean:
 	rm -f *.class
