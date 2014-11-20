@@ -1,4 +1,6 @@
-package gridworld;
+package gridworld.objects;
+import gridworld.Grid;
+import gridworld.GridObject;
 import java.awt.Graphics;
 import java.awt.Color;
 

@@ -1,23 +1,39 @@
-java_cp = .
-javac_flags = -cp $(java_cp)
-java_flags = -cp $(java_cp)
+all: gridworld.jar
 
-all: gridworld_recompile
-
-gridworld_recompile: gridworld/*.java gridworld/gui/*.java
-	javac $(javac_flags) gridworld/*.java
-	javac $(javac_flags) gridworld/gui/*.java
-	javac $(javac_flags) gridworld/com/*.java
-	javac $(javac_flags) gridworld/actions/*.java
-
-Test.class: gridworld_recompile Test.java
-	javac $(javac_flags) Test.java
+Test.class: gridworld.jar Test.java
+	javac -cp gridworld.jar:. Test.java
 
 test: Test.class
-	java $(java_flags) Test
+	java -cp gridworld.jar:. Test
+
+gridworld.jar: gridworld/*.java gridworld/gui/*.java gridworld/com/*.java gridworld/actions/*.java gridworld/levels/*.java gridworld/objects/*.java gridworld/updates/*.java
+	javac gridworld/*.java \
+	gridworld/gui/*.java \
+	gridworld/com/*.java \
+	gridworld/actions/*.java \
+	gridworld/levels/*.java \
+	gridworld/objects/*.java \
+	gridworld/updates/*.java
+	jar cvfe gridworld.jar gridworld.StartConsole \
+	gridworld/*.class \
+	gridworld/gui/*.class \
+	gridworld/com/*.class \
+	gridworld/actions/*.class \
+	gridworld/levels/*.class \
+	gridworld/objects/*.class \
+	gridworld/updates/*.class
+	chmod +x gridworld.jar
+
+install: gridworld.jar
+	./install.sh
 
 clean:
 	rm -f *.class
 	rm -f gridworld/*.class
 	rm -f gridworld/gui/*.class
 	rm -f gridworld/com/*.class
+	rm -f gridworld/actions/*.class
+	rm -f gridworld/levels/*.class
+	rm -f gridworld/objects/*.class
+	rm -f gridworld/updates/*.class
+	rm -f gridworld.jar

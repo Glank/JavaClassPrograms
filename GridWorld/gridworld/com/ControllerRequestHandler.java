@@ -1,5 +1,5 @@
 package gridworld.com;
-import gridworld.Player;
+import gridworld.objects.Player;
 import gridworld.Grid;
 import gridworld.GridWorld;
 import gridworld.gui.GameConsole;

@@ -22,6 +22,17 @@ public class GridWorld implements Runnable{
         this(new Grid());
     }
 
+    public void clearActions(){
+        synchronized(actionQueue){
+            actionQueue.clear();
+        }
+    }
+    public void clearUpdates(){
+        synchronized(updates){
+            updates.clear();
+        }
+    }
+
     public Grid getGrid(){
         return grid;
     }
@@ -81,11 +92,15 @@ public class GridWorld implements Runnable{
 
     public void run(){
         long lastUpdate = System.currentTimeMillis();
-        long elapsed;
+        long elapsed, sleep;
         while(!stopped){
-            //sleep for half a second
+            //sleep until it's time for the next turn
             elapsed = System.currentTimeMillis()-lastUpdate;
-            try{Thread.sleep(MOVE_MILLISECONDS-elapsed);}
+            try{
+                sleep = MOVE_MILLISECONDS-elapsed;
+                if(sleep>1)
+                    Thread.sleep(sleep);
+            }
             catch(InterruptedException ex){}
             lastUpdate = System.currentTimeMillis();
             //do the next turn

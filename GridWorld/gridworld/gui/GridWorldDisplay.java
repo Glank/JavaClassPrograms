@@ -8,6 +8,7 @@ public class GridWorldDisplay extends GridDisplay implements GridChangeListener{
     public GridWorldDisplay(GridWorld world){
         super(world.getGrid());
         this.world = world;
+        world.addListener(this);
         //start repaint thread
         RepaintThread thread = new RepaintThread();
         thread.world = world;

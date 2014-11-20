@@ -1,5 +1,5 @@
 package gridworld.com;
-import gridworld.Player;
+import gridworld.objects.Player;
 import gridworld.actions.MovePlayer;
 
 public class MoveRequestHandler extends ControllerRequestHandler{
@@ -9,7 +9,7 @@ public class MoveRequestHandler extends ControllerRequestHandler{
     public ControllerResponse handle(ControllerRequest request){
         Player player = getPlayer();
         if(player==null)
-            return new ControllerResponse();
+            return new ControllerResponse("no player");
         int dx = (Integer)request.args[0];
         int dy = (Integer)request.args[1];
         //move
@@ -22,6 +22,8 @@ public class MoveRequestHandler extends ControllerRequestHandler{
                     action.wait();
             }catch(InterruptedException ex){}
         }
+        if(!action.wasSuccessfull())
+            return new ControllerResponse("blocked");
         return new ControllerResponse();
     }
 }
