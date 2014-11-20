@@ -1,14 +1,4 @@
-import gridworld.*;
-import gridworld.gui.*;
-import gridworld.com.*;
-import gridworld.actions.*;
-import gridworld.levels.*;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.File;
-import javax.swing.*;
-import java.util.Random;
+import gridworld.SimpleController;
 
 public class Example{
     public static void main(String[] args) throws Throwable{

@@ -11,7 +11,7 @@ public class SimpleController{
             client = new ControllerClient();
         }catch(IOException ex){
             System.err.println("Error: Could not connect controller. Is GridWorld started?");
-            System.exit(1);
+            throw new RuntimeException();
         }
     }
     public void setLevel(String levelName){
@@ -21,11 +21,11 @@ public class SimpleController{
             if(response.errorMessage!=null){
                 System.err.println("The level \""+levelName+
                     "\" does not exist. Did you spell it wrong?");
-                System.exit(1);
+                throw new RuntimeException();
             }
         }catch(IOException ex){
             System.err.println("Error: Controller disconnected. Did you close GridWorld?");
-            System.exit(1);
+            throw new RuntimeException();
         }
     }
     private boolean move(int dx, int dy){
@@ -35,7 +35,7 @@ public class SimpleController{
                 return false;
         }catch(IOException ex){
             System.err.println("Error: Controller disconnected. Did you close GridWorld?");
-            System.exit(1);
+            throw new RuntimeException();
         }
         return true;
     }
@@ -45,11 +45,11 @@ public class SimpleController{
                 new ControllerRequest("spawn"));
             if(response.errorMessage!=null){
                 System.err.println("The player never spawned. Did you select a level?");
-                System.exit(1);
+                throw new RuntimeException();
             }
         }catch(IOException ex){
             System.err.println("Error: Controller disconnected. Did you close GridWorld?");
-            System.exit(1);
+            throw new RuntimeException();
         }
     }
     public boolean moveUp(){
