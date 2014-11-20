@@ -1,6 +1,5 @@
 package gridworld.com;
-import gridworld.Player;
-import gridworld.GridWorld;
+import gridworld.gui.GameConsole;
 import gridworld.Configs;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,20 +9,20 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class ControllerServer extends Thread{
-    private Player player;
-    private GridWorld world;
+    private GameConsole console;
     private ServerSocket serverSocket;
     private HashMap<String,ControllerRequestHandler> handlers;
 
-    public ControllerServer(Player player, GridWorld world){
-        this.player = player;
-        this.world = world;
-        int port = Integer.parseInt(Configs.getKWConfig("controller_port"));
+    public ControllerServer(GameConsole console){
+        this.console = console;
+        String portString = Configs.getKWConfig("controller_port");
+        int port = Integer.parseInt(portString);
         try{
             this.serverSocket = new ServerSocket(port);
         }
         catch(IOException ex){
-            throw new RuntimeException("Unable to bind port "+port+": "+ex);
+            throw new RuntimeException(
+                "Unable to bind port "+port+": "+ex);
         }
         setDaemon(true);
         handlers = new HashMap<String,ControllerRequestHandler>();
@@ -33,9 +32,9 @@ public class ControllerServer extends Thread{
         synchronized(handlers){
             String action = handler.getAction();
             if(handlers.containsKey(handler))
-                throw new RuntimeException("Multiple handlers for action: "+action);
-            handler.setPlayer(player);
-            handler.setWorld(world);
+                throw new RuntimeException(
+                    "Multiple handlers for action: "+action);
+            handler.setConsole(console);
             handlers.put(action, handler);
         }
     }
@@ -50,12 +49,14 @@ public class ControllerServer extends Thread{
         try{
             while(true){
                 Socket sock = serverSocket.accept();
-                ControllerConnection connection = new ControllerConnection(sock, this);
+                ControllerConnection connection = 
+                    new ControllerConnection(sock, this);
                 connection.start();
             }
         }
         catch(IOException ex){
-            throw new RuntimeException("Problem with Controller Server: "+ex);
+            throw new RuntimeException(
+                "Problem with Controller Server: "+ex);
         }
     }
 

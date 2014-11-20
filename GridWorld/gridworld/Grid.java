@@ -7,12 +7,17 @@ import java.util.Vector;
 public class Grid{
     public static final int GRID_SQUARE_WIDTH = 20;
     public static final int GRID_SQUARE_HEIGHT = 20;
+    public static final int DEFAULT_WIDTH = 30;
+    public static final int DEFAULT_HEIGHT = 20;
     private int width, height;
     private Vector<GridObject> objects = new Vector<GridObject>();
 
     public Grid(int width, int height){
         this.width = width;
         this.height = height;
+    }
+    public Grid(){
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     public synchronized void addObject(GridObject obj){
@@ -22,13 +27,48 @@ public class Grid{
             objects.add(0, obj);
         obj.__setGrid(this);
     }
-
     public synchronized void removeObject(GridObject obj){
         objects.remove(obj);
         obj.__setGrid(null);
     }
+    public synchronized GridObject getObjectByClass(Class clazz){
+        for(GridObject obj:objects)
+            if(clazz.isInstance(obj))
+                return obj;
+        return null;
+    }
+    public synchronized Vector<GridObject> getObjectsByClass(
+        Class clazz){
+        Vector<GridObject> matches = new Vector<GridObject>();
+        for(GridObject obj:objects)
+            if(clazz.isInstance(obj))
+                matches.add(obj);
+        return matches;
+    }
 
-    public synchronized void moveObjectTo(GridObject obj, int new_x, int new_y){
+    public synchronized void updateAllObjects(){
+        //need to make a copy before updating because
+        //updates may add or remove objects
+        GridObject[] curObjects = new GridObject[objects.size()];
+        objects.toArray(curObjects);
+        for(GridObject obj:curObjects){
+            //if the object hasn't been removed
+            if(obj.getGrid()==this)
+                obj.update();
+        }
+    }
+
+    public synchronized void changeSolidState(
+        GridObject obj, boolean solid){
+        if(obj.isSolid()==solid)
+            return;
+        removeObject(obj);
+        obj.__setSolid(solid);
+        addObject(obj);
+    }
+
+    public synchronized void moveObjectTo(
+        GridObject obj, int new_x, int new_y){
         obj.__setLoc(new_x, new_y);
     }
 

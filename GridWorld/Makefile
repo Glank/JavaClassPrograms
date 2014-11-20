@@ -8,6 +8,7 @@ gridworld_recompile: gridworld/*.java gridworld/gui/*.java
 	javac $(javac_flags) gridworld/*.java
 	javac $(javac_flags) gridworld/gui/*.java
 	javac $(javac_flags) gridworld/com/*.java
+	javac $(javac_flags) gridworld/actions/*.java
 
 Test.class: gridworld_recompile Test.java
 	javac $(javac_flags) Test.java

@@ -19,12 +19,22 @@ public abstract class GridObject{
     public boolean isSolid(){
         return solid;
     }
+    public Grid getGrid(){
+        return grid;
+    }
 
+    //the grid controls the location and solid state of objects, 
+    //since it may
+    //eventually have an internal mechanism which keeps
+    //track of objects based on their location for faster
+    //referencing.
+    public void setSolid(boolean solid){
+        if(grid!=null)
+            grid.changeSolidState(this, solid);
+        else
+            this.solid = solid;
+    }
     public void moveTo(int newX, int newY){
-        //the grid controls the location of objects, as it may
-        //eventually have an internal mechanism which keeps
-        //track of objects based on their location for faster
-        //referencing.
         if(grid!=null)
             grid.moveObjectTo(this, newX, newY);
         else{
@@ -79,10 +89,19 @@ public abstract class GridObject{
         __assertGridCalling();
         this.grid = grid;
     }
+    void __setSolid(boolean solid){
+        __assertGridCalling();
+        this.solid = solid;
+    }
 
 
     /**
     * Draw this object with it's top left corner at 0,0
     */
     protected abstract void draw(Graphics g);
+
+    /**
+    * This method is called after each turn.
+    */
+    public void update(){}
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class GridWorld implements Runnable{
+    public static final int MOVE_MILLISECONDS = 500;
     private LinkedList<TurnAction> actionQueue = 
         new LinkedList<TurnAction>();
     private LinkedList<GridChangeListener> gcListeners =
@@ -12,9 +13,13 @@ public class GridWorld implements Runnable{
         new LinkedList<GridUpdate>();
     private Grid grid;
     private boolean stopped = false;
+
     public GridWorld(Grid grid){
         this.grid = grid;
         startDaemonThread();
+    }
+    public GridWorld(){
+        this(new Grid());
     }
 
     public Grid getGrid(){
@@ -75,11 +80,18 @@ public class GridWorld implements Runnable{
     }
 
     public void run(){
+        long lastUpdate = System.currentTimeMillis();
+        long elapsed;
         while(!stopped){
             //sleep for half a second
-            try{Thread.sleep(500);}catch(InterruptedException ex){}
+            elapsed = System.currentTimeMillis()-lastUpdate;
+            try{Thread.sleep(MOVE_MILLISECONDS-elapsed);}
+            catch(InterruptedException ex){}
+            lastUpdate = System.currentTimeMillis();
             //do the next turn
             doTurn();
+            //update all objects
+            grid.updateAllObjects();
             //run all the grid updates
             synchronized(updates){
                 for(GridUpdate update:updates){

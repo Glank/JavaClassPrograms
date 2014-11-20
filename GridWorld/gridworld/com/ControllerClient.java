@@ -10,23 +10,21 @@ public class ControllerClient{
     private ObjectInputStream in;
     private ObjectOutputStream out;
     public ControllerClient(){
-        int port = Integer.parseInt(Configs.getKWConfig("controller_port"));
+        String portString = Configs.getKWConfig("controller_port");
+        int port = Integer.parseInt(portString);
         try{
-            System.out.println("Connecting controller...");
             socket = new Socket("localhost", port);
-            System.out.println("Controller connected...");
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         }catch(IOException ex){
-            throw new RuntimeException("Error connecting controller: "+ex);
+            throw new RuntimeException(
+                "Error connecting controller: "+ex);
         }
     }
 
     public ControllerResponse sendRequest(ControllerRequest request){
         try{
-            System.out.println("Sending request...");
             out.writeObject(request);
-            System.out.println("Awaiting response...");
             return (ControllerResponse)in.readObject();
         }catch(Exception ex){
             throw new RuntimeException("Error sending request: "+ex);
