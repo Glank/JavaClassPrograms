@@ -12,6 +12,7 @@ public class ControllerServer extends Thread{
     private GameConsole console;
     private ServerSocket serverSocket;
     private HashMap<String,ControllerRequestHandler> handlers;
+    private boolean closed = false;
 
     public ControllerServer(GameConsole console){
         this.console = console;
@@ -26,6 +27,14 @@ public class ControllerServer extends Thread{
         }
         setDaemon(true);
         handlers = new HashMap<String,ControllerRequestHandler>();
+    }
+
+    public void close(){
+        this.closed = true;
+    }
+
+    public boolean isClosed(){
+        return closed;
     }
 
     public void addHandler(ControllerRequestHandler handler){
@@ -47,7 +56,7 @@ public class ControllerServer extends Thread{
 
     public void run(){
         try{
-            while(true){
+            while(!closed){
                 Socket sock = serverSocket.accept();
                 ControllerConnection connection = 
                     new ControllerConnection(sock, this);
@@ -57,6 +66,11 @@ public class ControllerServer extends Thread{
         catch(IOException ex){
             throw new RuntimeException(
                 "Problem with Controller Server: "+ex);
+        }
+        finally{
+            try{
+                serverSocket.close();
+            }catch(Throwable t){}
         }
     }
 
@@ -79,7 +93,7 @@ public class ControllerServer extends Thread{
         }
         public void run(){
             try{
-                while(true){
+                while(!server.isClosed()){
                     ControllerRequest request = (ControllerRequest)in.readObject();
                     ControllerRequestHandler handler = server.getHandler(request.action);
                     ControllerResponse response = handler.handle(request);
@@ -87,6 +101,10 @@ public class ControllerServer extends Thread{
                 }
             }catch(Throwable t){
                 t.printStackTrace();
+            }finally{
+                try{
+                    socket.close();
+                }catch(Throwable t){}
             }
         }
     }

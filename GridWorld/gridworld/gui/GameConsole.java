@@ -8,6 +8,8 @@ import gridworld.com.LevelChangeRequestHandler;
 import gridworld.com.SpawnRequestHandler;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GameConsole extends JFrame{
     private GridWorld world;
@@ -27,6 +29,11 @@ public class GameConsole extends JFrame{
         add(display);
         pack();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addWindowListener( new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                server.close();
+            }
+        });
     }
     public void alert(String message){
         JOptionPane.showMessageDialog(this, message);

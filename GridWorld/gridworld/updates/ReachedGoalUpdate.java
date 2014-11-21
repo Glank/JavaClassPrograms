@@ -1,5 +1,6 @@
 package gridworld.updates;
 import gridworld.Grid;
+import gridworld.GridWorld;
 import gridworld.GridUpdate;
 import gridworld.gui.GameConsole;
 import gridworld.objects.Player;
@@ -22,5 +23,7 @@ public class ReachedGoalUpdate implements GridUpdate{
             player.reachGoal();
             console.alert("Congratulations, you won!");
         }
+        //remove remaining actions, we's done
+        console.getWorld().clearActions();
     }
 }

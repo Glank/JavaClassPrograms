@@ -10,7 +10,10 @@ public class SimpleController{
         try{
             client = new ControllerClient();
         }catch(IOException ex){
-            System.err.println("Error: Could not connect controller. Is GridWorld started?");
+            System.err.println(
+                "Error: Could not connect controller. "+
+                "Is GridWorld started?"
+            );
             throw new RuntimeException();
         }
     }
@@ -24,7 +27,10 @@ public class SimpleController{
                 throw new RuntimeException();
             }
         }catch(IOException ex){
-            System.err.println("Error: Controller disconnected. Did you close GridWorld?");
+            System.err.println(
+                "Error: Controller disconnected. "+
+                "Did you close GridWorld?"
+            );
             throw new RuntimeException();
         }
     }
@@ -34,7 +40,10 @@ public class SimpleController{
             if(response.errorMessage!=null)
                 return false;
         }catch(IOException ex){
-            System.err.println("Error: Controller disconnected. Did you close GridWorld?");
+            System.err.println(
+                "Error: Controller disconnected. "+
+                "Did you close GridWorld?"
+            );
             throw new RuntimeException();
         }
         return true;
@@ -44,11 +53,17 @@ public class SimpleController{
             ControllerResponse response = client.sendRequest(
                 new ControllerRequest("spawn"));
             if(response.errorMessage!=null){
-                System.err.println("The player never spawned. Did you select a level?");
+                System.err.println(
+                    "The player never spawned. "+
+                    "Did you select a level?"
+                );
                 throw new RuntimeException();
             }
         }catch(IOException ex){
-            System.err.println("Error: Controller disconnected. Did you close GridWorld?");
+            System.err.println(
+                "Error: Controller disconnected. "+
+                "Did you close GridWorld?"
+            );
             throw new RuntimeException();
         }
     }

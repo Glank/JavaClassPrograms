@@ -7,6 +7,9 @@ public class LevelRegistry{
     private HashMap<String,Level> levels = new HashMap<String,Level>();
     public LevelRegistry(GameConsole console){
         addLevel(new ExampleLevel(console));
+        addLevel(new ZigZag(console));
+        addLevel(new Steps(console));
+        addLevel(new Spiral(console));
     }
     private void addLevel(Level level){
         String name = level.getName().toUpperCase();

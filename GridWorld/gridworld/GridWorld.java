@@ -24,7 +24,8 @@ public class GridWorld implements Runnable{
 
     public void clearActions(){
         synchronized(actionQueue){
-            actionQueue.clear();
+            while(!actionQueue.isEmpty())
+                actionQueue.pop().finish();
         }
     }
     public void clearUpdates(){

@@ -12,12 +12,18 @@ import java.util.Random;
 
 public class Test{
     public static void main(String[] args) throws Throwable{
+        GameConsole console = new GameConsole();
+        console.setVisible(true);
+
         SimpleController controller = new SimpleController();
-        controller.setLevel("example level");
+        controller.setLevel("zigzag");
         controller.waitForPlayer();
-        for(int i = 0; i < 10; i++)
-            controller.moveRight();
-        for(int i = 0; i < 10; i++)
-            controller.moveDown();
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 13; j++) controller.moveRight();
+            for(int j = 0; j < 2; j++) controller.moveDown();
+            for(int j = 0; j < 13; j++) controller.moveLeft();
+            for(int j = 0; j < 2; j++) controller.moveDown();
+        }
+        System.out.println("Done.");
     }
 }
