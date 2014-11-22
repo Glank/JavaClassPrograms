@@ -24,6 +24,6 @@ public class Player extends GridObject{
             g.setColor(Color.MAGENTA);
         else
             g.setColor(Color.BLUE);
-        g.fillOval(0,0,Grid.GRID_SQUARE_WIDTH-1,Grid.GRID_SQUARE_HEIGHT-1);
+        g.fillOval(1,1,Grid.GRID_SQUARE_WIDTH-3,Grid.GRID_SQUARE_HEIGHT-3);
     }
 }

@@ -15,15 +15,16 @@ public class Test{
         GameConsole console = new GameConsole();
         console.setVisible(true);
 
-        SimpleController controller = new SimpleController();
-        controller.setLevel("zigzag");
-        controller.waitForPlayer();
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 13; j++) controller.moveRight();
-            for(int j = 0; j < 2; j++) controller.moveDown();
-            for(int j = 0; j < 13; j++) controller.moveLeft();
-            for(int j = 0; j < 2; j++) controller.moveDown();
-        }
+        SimpleController ctl = new SimpleController();
+        ctl.setLevel("example level");
+        ctl.waitForPlayer();
+        ctl.moveDown();
+        ctl.moveDown();
+        for(int i = 0; i < 10; i++)
+            ctl.moveRight();
+        for(int i = 0; i < 10; i++)
+            ctl.moveDown();
+        
         System.out.println("Done.");
     }
 }

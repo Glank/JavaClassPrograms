@@ -1,17 +1,16 @@
 package gridworld.updates;
 import gridworld.Grid;
+import gridworld.GridObject;
 import gridworld.GridWorld;
 import gridworld.GridUpdate;
 import gridworld.gui.GameConsole;
 import gridworld.objects.Player;
-import gridworld.objects.GoalSquare;
+import gridworld.objects.Killer;
 
-public class ReachedGoalUpdate implements GridUpdate{
+public class PlayerKilled implements GridUpdate{
     private GameConsole console;
-    private GoalSquare goal;
-    public ReachedGoalUpdate(GameConsole console, GoalSquare goal){
+    public PlayerKilled(GameConsole console){
         this.console = console;
-        this.goal = goal;
     }
     public void update(Grid grid){
         Player player = (Player)grid.getObjectByClass(Player.class);
@@ -19,9 +18,13 @@ public class ReachedGoalUpdate implements GridUpdate{
             return;
         else if(player.hasReachedGoal())
             return;
-        if(player.getX()==goal.getX() && player.getY()==goal.getY()){
-            player.reachGoal();
-            console.alert("Congratulations, you won!");
+        boolean killed = false;
+        for(GridObject obj: grid.getObjectsAt(player.getX(), player.getY())){
+            //if player overlaps a killer
+            if(obj instanceof Killer)
+                killed = true;
         }
+        if(killed)
+            grid.removeObject(player);
     }
 }

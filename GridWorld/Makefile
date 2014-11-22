@@ -34,4 +34,6 @@ clean:
 	rm -f gridworld/levels/*.class
 	rm -f gridworld/objects/*.class
 	rm -f gridworld/updates/*.class
+
+clean_all: clean
 	rm -f gridworld.jar
