@@ -10,6 +10,7 @@ public class LevelRegistry{
         addLevel(new ZigZag(console));
         addLevel(new Steps(console));
         addLevel(new Spiral(console));
+        addLevel(new Methods(console));
         addLevel(new BadGuys(console));
     }
     private void addLevel(Level level){
