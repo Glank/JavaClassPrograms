@@ -36,7 +36,8 @@ public class SimpleController{
     }
     private boolean move(int dx, int dy){
         try{
-            ControllerResponse response = client.sendRequest(new ControllerRequest("move",dx,dy));
+            ControllerResponse response = client.sendRequest(
+                new ControllerRequest("move",dx,dy));
             if(response.errorMessage!=null)
                 return false;
         }catch(IOException ex){
@@ -56,6 +57,25 @@ public class SimpleController{
                 System.err.println(
                     "The player never spawned. "+
                     "Did you select a level?"
+                );
+                throw new RuntimeException();
+            }
+        }catch(IOException ex){
+            System.err.println(
+                "Error: Controller disconnected. "+
+                "Did you close GridWorld?"
+            );
+            throw new RuntimeException();
+        }
+    }
+    public void waitTurns(int n){
+        try{
+            ControllerResponse response = client.sendRequest(
+                new ControllerRequest("wait", n));
+            if(response.errorMessage!=null){
+                System.err.println(
+                    "You cannot wait for that long at one time. "+
+                    "You may only wait 99 turns at most in one command."
                 );
                 throw new RuntimeException();
             }

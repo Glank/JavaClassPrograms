@@ -10,7 +10,8 @@ public class Configs{
         if(configObject==null){
             configObject = new HashMap<String,String>();
             try{
-                Scanner in = new Scanner(Configs.class.getResourceAsStream(CONFIG_FILE_NAME));
+                Scanner in = new Scanner(
+                    Configs.class.getResourceAsStream(CONFIG_FILE_NAME));
                 while(in.hasNextLine()){
                     String line = in.nextLine().trim();
                     if(line.isEmpty())

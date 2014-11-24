@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Grid{
     public static final int GRID_SQUARE_WIDTH = 20;
@@ -11,10 +13,17 @@ public class Grid{
     public static final int DEFAULT_HEIGHT = 20;
     private int width, height;
     private Vector<GridObject> objects = new Vector<GridObject>();
+    private List[][] objectsByLoc; //Object type of List<GridObject>
 
     public Grid(int width, int height){
         this.width = width;
         this.height = height;
+        objectsByLoc = new List[width][height];
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                objectsByLoc[x][y] = new LinkedList<GridObject>();
+            }
+        }
     }
     public Grid(){
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -25,10 +34,12 @@ public class Grid{
             objects.add(obj);
         else
             objects.add(0, obj);
+        objectsByLoc[obj.getX()][obj.getY()].add(obj);
         obj.__setGrid(this);
     }
     public synchronized void removeObject(GridObject obj){
         objects.remove(obj);
+        ((List<GridObject>)objectsByLoc[obj.getX()][obj.getY()]).remove(obj);
         obj.__setGrid(null);
     }
     public synchronized GridObject getObjectByClass(Class clazz){
@@ -69,15 +80,14 @@ public class Grid{
 
     public synchronized void moveObjectTo(
         GridObject obj, int new_x, int new_y){
+        ((List<GridObject>)objectsByLoc[obj.getX()][obj.getY()]).remove(obj);
         obj.__setLoc(new_x, new_y);
+        ((List<GridObject>)objectsByLoc[obj.getX()][obj.getY()]).add(obj);
     }
 
     public synchronized Vector<GridObject> getObjectsAt(int x, int y){
         Vector<GridObject> objectsAt = new Vector<GridObject>();
-        for(GridObject obj:objects){
-            if(obj.getX()==x && obj.getY()==y)
-                objectsAt.add(obj);
-        }
+        objectsAt.addAll((List<GridObject>)objectsByLoc[x][y]);
         return objectsAt;
     }
 

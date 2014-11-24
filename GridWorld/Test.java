@@ -16,15 +16,49 @@ public class Test{
         console.setVisible(true);
 
         SimpleController ctl = new SimpleController();
-        ctl.setLevel("example level");
+        ctl.setLevel("badguys");
         ctl.waitForPlayer();
-        ctl.moveDown();
-        ctl.moveDown();
+        ctl.waitTurns(3);
         for(int i = 0; i < 10; i++)
             ctl.moveRight();
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 4; i++)
             ctl.moveDown();
-        
-        System.out.println("Done.");
+        ctl.waitTurns(2);
+        for(int i = 0; i < 7; i++)
+            ctl.moveDown();
+        for(int i = 0; i < 10 ;i++)
+            ctl.moveLeft();
+        int d = 0;
+        for(int dist = 6; dist>=1; dist--){
+            for(int i = 0; i < dist; i++){
+                if(d==0) ctl.moveUp();
+                if(d==1) ctl.moveRight();
+                if(d==2) ctl.moveDown();
+                if(d==3) ctl.moveLeft();
+            }
+            d = (d+1)%4;
+        }
+        d = 0;
+        for(int dist = 1; dist<=6; dist++){
+            for(int i = 0; i < dist; i++){
+                if(d==0) ctl.moveLeft();
+                if(d==1) ctl.moveDown();
+                if(d==2) ctl.moveRight();
+                if(d==3) ctl.moveUp();
+            }
+            d = (d+1)%4;
+        }
+        for(int i = 0; i < 17; i++)
+            ctl.moveRight();
+        d = 0;
+        for(int i = 0; i < 5; i++){
+            ctl.moveUp();
+            ctl.moveUp();
+            for(int j = 0; j < 3; j++){
+                if(d==0) ctl.moveLeft();
+                if(d==1) ctl.moveRight();
+            }
+            d = (d+1)%2;
+        }
     }
 }

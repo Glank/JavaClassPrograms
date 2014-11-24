@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class GridWorld implements Runnable{
-    public static final int MOVE_MILLISECONDS = 500;
+    public static final int MOVE_MILLISECONDS = 100;
     private LinkedList<TurnAction> actionQueue = 
         new LinkedList<TurnAction>();
     private LinkedList<GridChangeListener> gcListeners =

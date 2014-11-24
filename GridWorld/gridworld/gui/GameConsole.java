@@ -6,6 +6,7 @@ import gridworld.com.ControllerServer;
 import gridworld.com.MoveRequestHandler;
 import gridworld.com.LevelChangeRequestHandler;
 import gridworld.com.SpawnRequestHandler;
+import gridworld.com.WaitRequestHandler;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowAdapter;
@@ -25,6 +26,7 @@ public class GameConsole extends JFrame{
         server.addHandler(new MoveRequestHandler());
         server.addHandler(new LevelChangeRequestHandler());
         server.addHandler(new SpawnRequestHandler());
+        server.addHandler(new WaitRequestHandler());
         server.start();
         add(display);
         pack();
