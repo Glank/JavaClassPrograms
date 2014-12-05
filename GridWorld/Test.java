@@ -11,12 +11,14 @@ import javax.swing.*;
 import java.util.Random;
 
 public class Test{
+    static SimpleController ctl;
+
     public static void main(String[] args) throws Throwable{
         GameConsole console = new GameConsole();
         console.setVisible(true);
 
-        SimpleController ctl = new SimpleController();
-        ctl.setLevel("methods");
+        ctl = new SimpleController();
+        ctl.setLevel("methods2");
         ctl.waitForPlayer();
         
         //go to the first button
@@ -27,7 +29,7 @@ public class Test{
         ctl.moveDown();
         ctl.moveDown();
 
-        touchButton(ctl);
+        touchButton();
 
         //goto the second button
         ctl.moveUp();
@@ -35,7 +37,7 @@ public class Test{
         for(int i = 0; i < 16; i++)
             ctl.moveRight();
 
-        touchButton(ctl);
+        touchButton();
 
         //goto the thrid button
         for(int i = 0; i < 9; i++){
@@ -47,7 +49,7 @@ public class Test{
         ctl.moveDown();
         ctl.moveDown();
 
-        touchButton(ctl);
+        touchButton();
 
         //goto the exit
         ctl.moveUp();
@@ -56,24 +58,24 @@ public class Test{
             ctl.moveRight();
         ctl.moveDown();
         
-        touchButton(ctl);
+        touchButton();
     }
 
-    public static void touchButton(SimpleController ctl){
+    public static void touchButton(){
         for(int i = 0; i < 5; i++)
             ctl.moveRight();
         ctl.moveDown();
         ctl.moveDown();
-        ctl.moveLeft();
         ctl.moveDown();
         ctl.moveLeft();
         ctl.moveLeft();
         ctl.moveUp();
+        ctl.moveLeft();
+        ctl.moveRight();
         ctl.moveDown();
         ctl.moveRight();
         ctl.moveRight();
         ctl.moveUp();
-        ctl.moveRight();
         ctl.moveUp();
         ctl.moveUp();
         for(int i = 0; i < 5; i++)

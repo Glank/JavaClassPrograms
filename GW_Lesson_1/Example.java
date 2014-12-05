@@ -11,6 +11,7 @@ public class Example{
     SimpleController controller = new SimpleController();
     
     //start the level "example level"
+    //You should also try "steps", "zigzag", "spiral", and "badguys"
     controller.setLevel("example level");
     
     //wait for the player to spawn
@@ -19,7 +20,15 @@ public class Example{
     //move right 3 spaces then up 2 spaces
     for(int i = 0; i < 3; i++)
       controller.moveRight();
-    for(int i = 0; i < 2; i++)
+    
+    //move left once
+    controller.moveLeft();
+    
+    //twice: move up then move right
+    for(int i = 0; i < 2; i++){
       controller.moveUp();
+      controller.moveRight();
+    }
+    
   }
 }
