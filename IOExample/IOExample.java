@@ -9,7 +9,7 @@ public class IOExample{
     
     System.out.println("Hello, what is your name?");
     name = scan.nextLine();
-    System.out.println("How are are you " + name + "?");
+    System.out.println("How old are are you " + name + "?");
     age = scan.nextInt();
     System.out.println("Thats cool. I am " + age + " years old too");
   }
